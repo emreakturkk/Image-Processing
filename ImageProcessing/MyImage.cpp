@@ -798,3 +798,163 @@ BYTE* Closinng(BYTE* buffer, int width, int height, int iteration)
 
 	return buffer;
 }
+
+BYTE* ObjectDetect(BYTE* buffer, int width, int height)
+{
+	int etiket = 1;
+	int collesion = 254;
+	BYTE* tBuffer = new  BYTE[width*height];
+	for (int i = 0; i < height*width; i++)
+	{
+		tBuffer[i] = buffer[i];
+	}
+
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			cout << (int)buffer[i*width + j] << "\t";
+		}
+		cout << endl;
+	}
+
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+
+			if ((int)buffer[i * width + j] == 0)
+			{
+				// (0,0)
+				if (i - 1 < 0 && j - 1 < 0)
+				{
+					buffer[i * width + j] = BYTE(etiket++);
+
+				}
+				// (0,width-1)
+				else if (i == 0)
+				{
+					int flag = 0;
+					for (int k = 1; k <= etiket; k++)
+					{
+						if (buffer[i * width + j - 1] == k)
+						{
+							buffer[i * width + j] = BYTE(k);
+							flag = 1;
+						}
+					}
+					if (flag == 0)
+						buffer[i * width + j] = BYTE(etiket++);
+				}
+
+				// (i,0)
+				else if (j == 0)
+				{
+					int flag = 0;
+					for (int k = 1; k <= etiket; k++)
+					{
+						if (buffer[(i - 1) * width + j] == k)
+						{
+							buffer[i * width + j] = BYTE(k);
+							flag = 1;
+						}
+
+					}
+					if (flag == 0)
+						buffer[i * width + j] = BYTE(etiket++);
+				}
+
+				else
+				{
+					int flag = 0;
+					for (int k = 1; k <= etiket; k++)
+					{
+						if (buffer[(i - 1) * width + j] == k || buffer[(i)* width + j - 1] == k)
+						{
+							flag++;
+						}
+
+					}
+					if (flag == 0)
+						buffer[i * width + j] = BYTE(etiket++);
+					else if (flag == 1)
+					{
+						for (int k = 1; k <= etiket; k++)
+							if (buffer[(i - 1) * width + j] == k || buffer[(i)* width + j - 1] == k)
+								buffer[i * width + j] = BYTE(k);
+					}
+					else if (flag == 2)
+					{
+						buffer[i * width + j] = BYTE(collesion);
+					}
+
+				}
+
+			}
+		}
+
+	}
+	/*for (int i = 0; i < height; i++)
+	{
+	for (int j = 0; j < width; j++)
+	{
+
+	if ((int)buffer[i * width + j] == collesion)
+	{
+
+	if (buffer[(i - 1) * width + j] <= buffer[i* width + j - 1])
+	{
+	BYTE x = buffer[i* width + j - 1];
+	BYTE y = buffer[(i - 1) * width + j];
+	buffer[i * width + j] = y;
+
+	for (int h = 0; h < height*width; h++)
+	{
+	if (buffer[h] == x)
+	{
+	buffer[h] = y;
+	}
+	}
+
+	}
+	else if (buffer[(i - 1) * width + j] > buffer[i* width + j - 1])
+	{
+	BYTE x = buffer[(i - 1) * width + j];
+	BYTE y = buffer[i* width + j - 1];
+
+	buffer[i * width + j] = y;
+	for (int h = 0; h < height*width; h++)
+	{
+	if (buffer[h] == x)
+	{
+	buffer[h] = y;
+	}
+	}
+	}
+
+	}
+	}
+	}*/
+
+	int *hist = new int[256];
+	for (int i = 0; i < 256; i++)
+		hist[i] = 0;
+	for (int i = 0; i < width*height; i++)
+		hist[buffer[i]]++;
+
+	for (int i = 0; i < 256; i++)
+		if (hist[i] != 0)
+			cout << i << ". " << hist[i] << endl;
+
+	cout << endl;
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+		{
+			cout << (int)buffer[i*width + j] << "\t";
+		}
+		cout << endl;
+	}
+	cout << "Nesne Sayisi: " << etiket - 1 << endl;
+	return buffer;
+}

@@ -17,3 +17,5 @@ BYTE* Erosion(BYTE* buffer, int width, int height, int iteration);
 BYTE* Opening(BYTE* buffer, int width, int height, int iteration);
 BYTE* Closinng(BYTE* buffer, int width, int height, int iteration);
 BYTE* Boundary(BYTE* buffer, int width, int height);
+
+BYTE* ObjectDetect(BYTE* buffer, int width, int height);
