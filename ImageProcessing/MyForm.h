@@ -62,10 +62,10 @@ namespace ImageProcessing {
 		int box_W;
 		int box_H;
 
-		LPCTSTR input;
+		LPCTSTR input, output;
 		int width, height;
-		long size;
-
+		long size, newsize;
+		
 		BYTE* buffer;
 		BYTE* raw_intensity;
 		BYTE* dCrop;
@@ -99,11 +99,20 @@ namespace ImageProcessing {
 	private: System::Windows::Forms::NumericUpDown^  numericUpDown3;
 	private: System::Windows::Forms::Label^  label4;
 	private: System::Windows::Forms::Label^  label3;
+	private: System::Windows::Forms::ToolStripMenuItem^  objectDetectToolStripMenuItem;
+	private: System::Windows::Forms::Label^  label5;
+	private: System::Windows::Forms::NumericUpDown^  numericUpDown6;
+	private: System::Windows::Forms::Label^  label7;
+	private: System::Windows::Forms::NumericUpDown^  numericUpDown5;
+	private: System::Windows::Forms::Label^  label6;
+	private: System::Windows::Forms::ContextMenuStrip^  contextMenuStrip1;
+	private: System::ComponentModel::IContainer^  components;
+
 
 
 
 			 /// </summary>
-			 System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 			 /// <summary>
@@ -112,6 +121,7 @@ namespace ImageProcessing {
 			 /// </summary>
 			 void InitializeComponent(void)
 			 {
+				 this->components = (gcnew System::ComponentModel::Container());
 				 System::Windows::Forms::DataVisualization::Charting::ChartArea^  chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
 				 System::Windows::Forms::DataVisualization::Charting::Legend^  legend1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
 				 System::Windows::Forms::DataVisualization::Charting::Series^  series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
@@ -128,6 +138,7 @@ namespace ImageProcessing {
 				 this->kMeansToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				 this->kMeansClustering1DToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				 this->kMeansClusteringNDToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
+				 this->objectDetectToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				 this->ýmageMorphologyToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				 this->dilationToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 				 this->erosionToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -143,10 +154,16 @@ namespace ImageProcessing {
 				 this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
 				 this->numericUpDown2 = (gcnew System::Windows::Forms::NumericUpDown());
 				 this->panel1 = (gcnew System::Windows::Forms::Panel());
+				 this->numericUpDown6 = (gcnew System::Windows::Forms::NumericUpDown());
+				 this->label7 = (gcnew System::Windows::Forms::Label());
+				 this->numericUpDown5 = (gcnew System::Windows::Forms::NumericUpDown());
+				 this->label6 = (gcnew System::Windows::Forms::Label());
+				 this->label5 = (gcnew System::Windows::Forms::Label());
 				 this->numericUpDown4 = (gcnew System::Windows::Forms::NumericUpDown());
 				 this->numericUpDown3 = (gcnew System::Windows::Forms::NumericUpDown());
 				 this->label4 = (gcnew System::Windows::Forms::Label());
 				 this->label3 = (gcnew System::Windows::Forms::Label());
+				 this->contextMenuStrip1 = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
 				 this->menuStrip1->SuspendLayout();
 				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
@@ -154,6 +171,8 @@ namespace ImageProcessing {
 				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
 				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->BeginInit();
 				 this->panel1->SuspendLayout();
+				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown6))->BeginInit();
+				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown5))->BeginInit();
 				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown4))->BeginInit();
 				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown3))->BeginInit();
 				 this->SuspendLayout();
@@ -167,7 +186,7 @@ namespace ImageProcessing {
 				 });
 				 this->menuStrip1->Location = System::Drawing::Point(0, 0);
 				 this->menuStrip1->Name = L"menuStrip1";
-				 this->menuStrip1->Size = System::Drawing::Size(1277, 24);
+				 this->menuStrip1->Size = System::Drawing::Size(1154, 24);
 				 this->menuStrip1->TabIndex = 0;
 				 this->menuStrip1->Text = L"menuStrip1";
 				 // 
@@ -242,9 +261,9 @@ namespace ImageProcessing {
 				 // 
 				 // kMeansToolStripMenuItem
 				 // 
-				 this->kMeansToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				 this->kMeansToolStripMenuItem->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
 					 this->kMeansClustering1DToolStripMenuItem,
-						 this->kMeansClusteringNDToolStripMenuItem1
+						 this->kMeansClusteringNDToolStripMenuItem1, this->objectDetectToolStripMenuItem
 				 });
 				 this->kMeansToolStripMenuItem->Name = L"kMeansToolStripMenuItem";
 				 this->kMeansToolStripMenuItem->Size = System::Drawing::Size(66, 20);
@@ -263,6 +282,13 @@ namespace ImageProcessing {
 				 this->kMeansClusteringNDToolStripMenuItem1->Size = System::Drawing::Size(187, 22);
 				 this->kMeansClusteringNDToolStripMenuItem1->Text = L"KMeansClusteringND";
 				 this->kMeansClusteringNDToolStripMenuItem1->Click += gcnew System::EventHandler(this, &MyForm::kMeansClusteringNDToolStripMenuItem1_Click);
+				 // 
+				 // objectDetectToolStripMenuItem
+				 // 
+				 this->objectDetectToolStripMenuItem->Name = L"objectDetectToolStripMenuItem";
+				 this->objectDetectToolStripMenuItem->Size = System::Drawing::Size(187, 22);
+				 this->objectDetectToolStripMenuItem->Text = L"ObjectDetect";
+				 this->objectDetectToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::objectDetectToolStripMenuItem_Click);
 				 // 
 				 // ýmageMorphologyToolStripMenuItem
 				 // 
@@ -311,9 +337,9 @@ namespace ImageProcessing {
 				 // 
 				 // pictureBox1
 				 // 
-				 this->pictureBox1->Location = System::Drawing::Point(23, 58);
+				 this->pictureBox1->Location = System::Drawing::Point(12, 28);
 				 this->pictureBox1->Name = L"pictureBox1";
-				 this->pictureBox1->Size = System::Drawing::Size(450, 450);
+				 this->pictureBox1->Size = System::Drawing::Size(500, 500);
 				 this->pictureBox1->TabIndex = 1;
 				 this->pictureBox1->TabStop = false;
 				 this->pictureBox1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::pictureBox1_MouseDown);
@@ -326,9 +352,9 @@ namespace ImageProcessing {
 				 // 
 				 // pictureBox2
 				 // 
-				 this->pictureBox2->Location = System::Drawing::Point(500, 58);
+				 this->pictureBox2->Location = System::Drawing::Point(518, 28);
 				 this->pictureBox2->Name = L"pictureBox2";
-				 this->pictureBox2->Size = System::Drawing::Size(450, 450);
+				 this->pictureBox2->Size = System::Drawing::Size(500, 500);
 				 this->pictureBox2->TabIndex = 2;
 				 this->pictureBox2->TabStop = false;
 				 // 
@@ -339,14 +365,14 @@ namespace ImageProcessing {
 				 this->chart1->ChartAreas->Add(chartArea1);
 				 legend1->Name = L"Legend1";
 				 this->chart1->Legends->Add(legend1);
-				 this->chart1->Location = System::Drawing::Point(965, 212);
+				 this->chart1->Location = System::Drawing::Point(12, 534);
 				 this->chart1->Name = L"chart1";
 				 this->chart1->Palette = System::Windows::Forms::DataVisualization::Charting::ChartColorPalette::SemiTransparent;
 				 series1->ChartArea = L"ChartArea1";
 				 series1->Legend = L"Legend1";
 				 series1->Name = L"Number Of Pixel";
 				 this->chart1->Series->Add(series1);
-				 this->chart1->Size = System::Drawing::Size(299, 252);
+				 this->chart1->Size = System::Drawing::Size(1006, 252);
 				 this->chart1->TabIndex = 15;
 				 this->chart1->Text = L"chart1";
 				 // 
@@ -388,6 +414,11 @@ namespace ImageProcessing {
 				 // 
 				 // panel1
 				 // 
+				 this->panel1->Controls->Add(this->numericUpDown6);
+				 this->panel1->Controls->Add(this->label7);
+				 this->panel1->Controls->Add(this->numericUpDown5);
+				 this->panel1->Controls->Add(this->label6);
+				 this->panel1->Controls->Add(this->label5);
 				 this->panel1->Controls->Add(this->numericUpDown4);
 				 this->panel1->Controls->Add(this->numericUpDown3);
 				 this->panel1->Controls->Add(this->label4);
@@ -396,10 +427,53 @@ namespace ImageProcessing {
 				 this->panel1->Controls->Add(this->numericUpDown2);
 				 this->panel1->Controls->Add(this->label2);
 				 this->panel1->Controls->Add(this->numericUpDown1);
-				 this->panel1->Location = System::Drawing::Point(965, 58);
+				 this->panel1->Location = System::Drawing::Point(1024, 28);
 				 this->panel1->Name = L"panel1";
-				 this->panel1->Size = System::Drawing::Size(123, 136);
+				 this->panel1->Size = System::Drawing::Size(123, 206);
 				 this->panel1->TabIndex = 21;
+				 // 
+				 // numericUpDown6
+				 // 
+				 this->numericUpDown6->Location = System::Drawing::Point(63, 149);
+				 this->numericUpDown6->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 255, 0, 0, 0 });
+				 this->numericUpDown6->Name = L"numericUpDown6";
+				 this->numericUpDown6->Size = System::Drawing::Size(43, 20);
+				 this->numericUpDown6->TabIndex = 24;
+				 // 
+				 // label7
+				 // 
+				 this->label7->AutoSize = true;
+				 this->label7->Location = System::Drawing::Point(4, 156);
+				 this->label7->Name = L"label7";
+				 this->label7->Size = System::Drawing::Size(20, 13);
+				 this->label7->TabIndex = 26;
+				 this->label7->Text = L"T2";
+				 // 
+				 // numericUpDown5
+				 // 
+				 this->numericUpDown5->Location = System::Drawing::Point(63, 122);
+				 this->numericUpDown5->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 255, 0, 0, 0 });
+				 this->numericUpDown5->Name = L"numericUpDown5";
+				 this->numericUpDown5->Size = System::Drawing::Size(45, 20);
+				 this->numericUpDown5->TabIndex = 23;
+				 // 
+				 // label6
+				 // 
+				 this->label6->AutoSize = true;
+				 this->label6->Location = System::Drawing::Point(4, 129);
+				 this->label6->Name = L"label6";
+				 this->label6->Size = System::Drawing::Size(20, 13);
+				 this->label6->TabIndex = 25;
+				 this->label6->Text = L"T1";
+				 // 
+				 // label5
+				 // 
+				 this->label5->AutoSize = true;
+				 this->label5->Location = System::Drawing::Point(3, 181);
+				 this->label5->Name = L"label5";
+				 this->label5->Size = System::Drawing::Size(80, 13);
+				 this->label5->TabIndex = 22;
+				 this->label5->Text = L"Nesne Sayýsý: 0";
 				 // 
 				 // numericUpDown4
 				 // 
@@ -437,14 +511,19 @@ namespace ImageProcessing {
 				 this->label3->TabIndex = 21;
 				 this->label3->Text = L"Opening";
 				 // 
+				 // contextMenuStrip1
+				 // 
+				 this->contextMenuStrip1->Name = L"contextMenuStrip1";
+				 this->contextMenuStrip1->Size = System::Drawing::Size(61, 4);
+				 // 
 				 // MyForm
 				 // 
 				 this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 				 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 				 this->BackColor = System::Drawing::SystemColors::Control;
-				 this->ClientSize = System::Drawing::Size(1277, 530);
-				 this->Controls->Add(this->panel1);
+				 this->ClientSize = System::Drawing::Size(1154, 798);
 				 this->Controls->Add(this->chart1);
+				 this->Controls->Add(this->panel1);
 				 this->Controls->Add(this->pictureBox2);
 				 this->Controls->Add(this->pictureBox1);
 				 this->Controls->Add(this->menuStrip1);
@@ -460,6 +539,8 @@ namespace ImageProcessing {
 				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->EndInit();
 				 this->panel1->ResumeLayout(false);
 				 this->panel1->PerformLayout();
+				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown6))->EndInit();
+				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown5))->EndInit();
 				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown4))->EndInit();
 				 (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown3))->EndInit();
 				 this->ResumeLayout(false);
@@ -479,6 +560,7 @@ namespace ImageProcessing {
 			CString path;
 			path = openFileDialog1->FileName;
 			input = (LPCTSTR)path;
+			output = L"C:\\Users\\Emre\\Desktop\\dd.bmp";
 
 			buffer = LoadBMP(width, height, size, input);
 			BYTE *tBuffer = new BYTE[width*height * 3];
@@ -486,7 +568,7 @@ namespace ImageProcessing {
 			for (int i = 0; i < width*height * 3; i++)
 				tBuffer[i] = buffer[i];
 
-			raw_intensity = ConvertBMPToIntensity(tBuffer, width, height);
+			raw_intensity = ConvertBMPToIntensity(buffer, width, height);
 			
 		}
 	}
@@ -494,10 +576,9 @@ namespace ImageProcessing {
 	private: System::Void yIntesityToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 		BYTE* t_intensity = new BYTE[width*height];
-
 		for (unsigned int i = 0; i < height*width; i++)
 			t_intensity[i] = raw_intensity[i];
-
+		
 		Bitmap^ img = gcnew Bitmap(pictureBox1->Width, pictureBox1->Height);
 		pictureBox1->Image = img;
 		Color c;
@@ -556,9 +637,7 @@ namespace ImageProcessing {
 						temp = row * width + column;
 						c = Color::FromArgb(t_intensity[temp], t_intensity[temp], t_intensity[temp]);
 						imgCrop->SetPixel(column, row, c);
-
-					}
-					
+					}	
 				}
 				pictureBox2->Refresh();
 				delete[]t_intensity;
@@ -593,7 +672,6 @@ namespace ImageProcessing {
 						dCrop[pos++] = t_intensity[row*width + column];
 					}
 				delete[]t_intensity;
-				
 			}
 			
 		}
@@ -624,6 +702,8 @@ namespace ImageProcessing {
 					c = Color::FromArgb(zoom[temp], zoom[temp], zoom[temp]);
 					imgZoom->SetPixel(column, row, c);
 				}
+			BYTE * t = ConvertIntensityToBMP(zoom, 2 * (box_W - x) - 1, 2 * (box_H - y) - 1, newsize);
+			if (SaveBMP(t, 2 * (box_W - x) - 1, 2 * (box_H - y) - 1, newsize, output));
 			delete[] zoom;
 			delete[] dCrop;
 		}
@@ -696,7 +776,9 @@ namespace ImageProcessing {
 		for (unsigned int i = 0; i < height*width; i++)
 			t_intensity[i] = raw_intensity[i];
 
-		BYTE* k_means = KMeansClustering(t_intensity, width, height, 0);
+		int T1 = (int)numericUpDown5->Value;
+		int T2 = (int)numericUpDown6->Value;
+		BYTE* k_means = KMeansClustering(t_intensity, width, height, T1, T2, 0);
 
 		Bitmap^ img = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
 		pictureBox2->Image = img;
@@ -710,6 +792,9 @@ namespace ImageProcessing {
 				c = Color::FromArgb(k_means[temp], k_means[temp], k_means[temp]);
 				img->SetPixel(column, row, c);
 			}
+		
+		BYTE * t = ConvertIntensityToBMP(k_means, width, height, newsize);
+		if(SaveBMP(t, width, height, newsize, output));
 		delete[]k_means;
 	}
 
@@ -719,8 +804,8 @@ namespace ImageProcessing {
 
 		for (int i = 0; i < height*width * 3; i++)
 			tBuffer[i] = buffer[i];
-
-		BYTE* k_means = KMeansClusteringN(tBuffer, width, height);
+		
+		BYTE* k_means = KMeansClusteringN(tBuffer, width, height, 2);
 
 		Bitmap^ img = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
 		pictureBox2->Image = img;
@@ -736,18 +821,19 @@ namespace ImageProcessing {
 				img->SetPixel(column, row, c);
 			}
 		}
-
+		
 		delete[]k_means;
 	}
 
 	private: System::Void dilationToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+
 		BYTE* t_intensity = new BYTE[width*height];
 		for (unsigned int i = 0; i < height*width; i++)
 			t_intensity[i] = raw_intensity[i];
 
 		int iteration = (int)numericUpDown1->Value;
-		BYTE* binary = KMeansClustering(t_intensity, width, height, 0);
-		BYTE* dilation = Dilation(binary, width, height, iteration);
+		//BYTE* binary = KMeansClustering(t_intensity, width, height, 0);
+		BYTE* dilation = Dilation(t_intensity, width, height, iteration);
 
 		Bitmap^ img = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
 		pictureBox2->Image = img;
@@ -761,6 +847,8 @@ namespace ImageProcessing {
 				c = Color::FromArgb(dilation[temp], dilation[temp], dilation[temp]);
 				img->SetPixel(column, row, c);
 			}
+		BYTE * t = ConvertIntensityToBMP(dilation, width, height, newsize);
+		if (SaveBMP(t, width, height, newsize, output));
 		delete[]dilation;
 	}
 	private: System::Void erosionToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -770,8 +858,8 @@ namespace ImageProcessing {
 			t_intensity[i] = raw_intensity[i];
 
 		int iteration = (int)numericUpDown2->Value;
-		BYTE* binary = KMeansClustering(t_intensity, width, height, 0);
-		BYTE* erosion = Erosion(binary, width, height, iteration);
+		//BYTE* binary = KMeansClustering(t_intensity, width, height, 0);
+		BYTE* erosion = Erosion(t_intensity, width, height, iteration);
 
 		Bitmap^ img = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
 		pictureBox2->Image = img;
@@ -785,6 +873,8 @@ namespace ImageProcessing {
 				c = Color::FromArgb(erosion[temp], erosion[temp], erosion[temp]);
 				img->SetPixel(column, row, c);
 			}
+		BYTE * t = ConvertIntensityToBMP(erosion, width, height, newsize);
+		if (SaveBMP(t, width, height, newsize, output));
 		delete[]erosion;
 	}
 	private: System::Void openingToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -793,8 +883,8 @@ namespace ImageProcessing {
 			t_intensity[i] = raw_intensity[i];
 
 		int iteration = (int)numericUpDown3->Value;
-		BYTE* binary = KMeansClustering(t_intensity, width, height, 0);
-		BYTE* opening = Opening(binary, width, height, iteration);
+		//BYTE* binary = KMeansClustering(t_intensity, width, height, 0);
+		BYTE* opening = Opening(t_intensity, width, height, iteration);
 
 		Bitmap^ img = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
 		pictureBox2->Image = img;
@@ -808,6 +898,8 @@ namespace ImageProcessing {
 				c = Color::FromArgb(opening[temp], opening[temp], opening[temp]);
 				img->SetPixel(column, row, c);
 			}
+		BYTE * t = ConvertIntensityToBMP(opening, width, height, newsize);
+		if (SaveBMP(t, width, height, newsize, output));
 		delete[]opening;
 	}
 
@@ -818,9 +910,8 @@ namespace ImageProcessing {
 			t_intensity[i] = raw_intensity[i];
 
 		int iteration = (int)numericUpDown4->Value;
-		BYTE* binary = KMeansClustering(t_intensity, width, height, 0);
-		
-		BYTE* closing = Closinng(binary, width, height, iteration);
+		//BYTE* binary = KMeansClustering(t_intensity, width, height, 0);
+		BYTE* closing = Closinng(t_intensity, width, height, iteration);
 
 		Bitmap^ img = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
 		pictureBox2->Image = img;
@@ -834,6 +925,8 @@ namespace ImageProcessing {
 				c = Color::FromArgb(closing[temp], closing[temp], closing[temp]);
 				img->SetPixel(column, row, c);
 			}
+		BYTE * t = ConvertIntensityToBMP(closing, width, height, newsize);
+		if (SaveBMP(t, width, height, newsize, output));
 		delete[]closing;
 	}
 	private: System::Void boundaryToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -842,8 +935,8 @@ namespace ImageProcessing {
 		for (unsigned int i = 0; i < height*width; i++)
 			t_intensity[i] = raw_intensity[i];
 
-		BYTE* binary = KMeansClustering(t_intensity, width, height, 0);
-		BYTE* boundary = Boundary(binary, width, height);
+		//BYTE* binary = KMeansClustering(t_intensity, width, height, 0);
+		BYTE* boundary = Boundary(t_intensity, width, height);
 
 		Bitmap^ img = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
 		pictureBox2->Image = img;
@@ -857,8 +950,36 @@ namespace ImageProcessing {
 				c = Color::FromArgb(boundary[temp], boundary[temp], boundary[temp]);
 				img->SetPixel(column, row, c);
 			}
+		BYTE * t = ConvertIntensityToBMP(boundary, width, height, newsize);
+		if (SaveBMP(t, width, height, newsize, output));
 		delete[]boundary;
 	}
 	
+	private: System::Void objectDetectToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
+		BYTE* t_intensity = new BYTE[width*height];
+		for (unsigned int i = 0; i < height*width; i++)
+			t_intensity[i] = raw_intensity[i];
+		
+		int label;
+		//BYTE* binary = KMeansClustering(t_intensity, width, height, 0);
+		BYTE* Object = ObjectDetect(t_intensity, width, height, label);
+		
+		Bitmap^ img = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
+		pictureBox2->Image = img;
+		Color c;
+		int temp;
+
+		label5->Text = "Nesne Sayýsý: " + label;
+		for (unsigned int row = 0; row < height; row++)
+			for (unsigned int column = 0; column < width; column++)
+			{
+				temp = row * width + column;
+				c = Color::FromArgb(Object[temp], Object[temp], Object[temp]);
+				img->SetPixel(column, row, c);
+			}
+		BYTE * t = ConvertIntensityToBMP(Object, width, height, newsize);
+		if (SaveBMP(t, width, height, newsize, output));
+		delete[]Object;
+	}
 };
 }
