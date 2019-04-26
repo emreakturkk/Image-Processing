@@ -49,11 +49,6 @@ namespace ImageProcessing {
 	private: System::Windows::Forms::PictureBox^  pictureBox1;
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
 	private: System::Windows::Forms::PictureBox^  pictureBox2;
-
-
-
-
-
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -70,7 +65,6 @@ namespace ImageProcessing {
 		BYTE* raw_intensity;
 		BYTE* dCrop;
 		int flag;
-
 
 	private: System::Windows::Forms::ToolStripMenuItem^  operationsToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  yIntesityToolStripMenuItem;
@@ -107,10 +101,6 @@ namespace ImageProcessing {
 	private: System::Windows::Forms::Label^  label6;
 	private: System::Windows::Forms::ContextMenuStrip^  contextMenuStrip1;
 	private: System::ComponentModel::IContainer^  components;
-
-
-
-
 			 /// </summary>
 
 
@@ -186,7 +176,7 @@ namespace ImageProcessing {
 				 });
 				 this->menuStrip1->Location = System::Drawing::Point(0, 0);
 				 this->menuStrip1->Name = L"menuStrip1";
-				 this->menuStrip1->Size = System::Drawing::Size(1154, 24);
+				 this->menuStrip1->Size = System::Drawing::Size(1054, 24);
 				 this->menuStrip1->TabIndex = 0;
 				 this->menuStrip1->Text = L"menuStrip1";
 				 // 
@@ -339,7 +329,7 @@ namespace ImageProcessing {
 				 // 
 				 this->pictureBox1->Location = System::Drawing::Point(12, 28);
 				 this->pictureBox1->Name = L"pictureBox1";
-				 this->pictureBox1->Size = System::Drawing::Size(500, 500);
+				 this->pictureBox1->Size = System::Drawing::Size(450, 430);
 				 this->pictureBox1->TabIndex = 1;
 				 this->pictureBox1->TabStop = false;
 				 this->pictureBox1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::pictureBox1_MouseDown);
@@ -352,9 +342,9 @@ namespace ImageProcessing {
 				 // 
 				 // pictureBox2
 				 // 
-				 this->pictureBox2->Location = System::Drawing::Point(518, 28);
+				 this->pictureBox2->Location = System::Drawing::Point(470, 28);
 				 this->pictureBox2->Name = L"pictureBox2";
-				 this->pictureBox2->Size = System::Drawing::Size(500, 500);
+				 this->pictureBox2->Size = System::Drawing::Size(450, 430);
 				 this->pictureBox2->TabIndex = 2;
 				 this->pictureBox2->TabStop = false;
 				 // 
@@ -365,14 +355,14 @@ namespace ImageProcessing {
 				 this->chart1->ChartAreas->Add(chartArea1);
 				 legend1->Name = L"Legend1";
 				 this->chart1->Legends->Add(legend1);
-				 this->chart1->Location = System::Drawing::Point(12, 534);
+				 this->chart1->Location = System::Drawing::Point(12, 454);
 				 this->chart1->Name = L"chart1";
 				 this->chart1->Palette = System::Windows::Forms::DataVisualization::Charting::ChartColorPalette::SemiTransparent;
 				 series1->ChartArea = L"ChartArea1";
 				 series1->Legend = L"Legend1";
 				 series1->Name = L"Number Of Pixel";
 				 this->chart1->Series->Add(series1);
-				 this->chart1->Size = System::Drawing::Size(1006, 252);
+				 this->chart1->Size = System::Drawing::Size(908, 193);
 				 this->chart1->TabIndex = 15;
 				 this->chart1->Text = L"chart1";
 				 // 
@@ -427,7 +417,7 @@ namespace ImageProcessing {
 				 this->panel1->Controls->Add(this->numericUpDown2);
 				 this->panel1->Controls->Add(this->label2);
 				 this->panel1->Controls->Add(this->numericUpDown1);
-				 this->panel1->Location = System::Drawing::Point(1024, 28);
+				 this->panel1->Location = System::Drawing::Point(926, 28);
 				 this->panel1->Name = L"panel1";
 				 this->panel1->Size = System::Drawing::Size(123, 206);
 				 this->panel1->TabIndex = 21;
@@ -521,7 +511,7 @@ namespace ImageProcessing {
 				 this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 				 this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 				 this->BackColor = System::Drawing::SystemColors::Control;
-				 this->ClientSize = System::Drawing::Size(1154, 798);
+				 this->ClientSize = System::Drawing::Size(1054, 655);
 				 this->Controls->Add(this->chart1);
 				 this->Controls->Add(this->panel1);
 				 this->Controls->Add(this->pictureBox2);
@@ -560,7 +550,7 @@ namespace ImageProcessing {
 			CString path;
 			path = openFileDialog1->FileName;
 			input = (LPCTSTR)path;
-			output = L"C:\\Users\\Emre\\Desktop\\dd.bmp";
+			output = L"C:\\Users\\ea\\Desktop\\save.bmp";
 
 			buffer = LoadBMP(width, height, size, input);
 			BYTE *tBuffer = new BYTE[width*height * 3];
@@ -572,7 +562,6 @@ namespace ImageProcessing {
 			
 		}
 	}
-
 	private: System::Void yIntesityToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 
 		BYTE* t_intensity = new BYTE[width*height];
@@ -582,73 +571,72 @@ namespace ImageProcessing {
 		Bitmap^ img = gcnew Bitmap(pictureBox1->Width, pictureBox1->Height);
 		pictureBox1->Image = img;
 		Color c;
-		int temp;
 
 		for (unsigned int row = 0; row < height; row++)
 			for (unsigned int column = 0; column < width; column++)
 			{
-				temp = row * width + column;
-				c = Color::FromArgb(t_intensity[temp], t_intensity[temp], t_intensity[temp]);
+				int pos = row * width + column;
+				c = Color::FromArgb(t_intensity[pos], t_intensity[pos], t_intensity[pos]);
 				img->SetPixel(column, row, c);
 			}
-		delete[]t_intensity;
+
+		delete t_intensity;
 	
 	}
-
 	private: System::Void clearToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
 		pictureBox2->Image = nullptr;
-		pictureBox2->Width = 450;
-		pictureBox2->Height = 450;
-	}
+		pictureBox2->Width = 420;
+		pictureBox2->Height = 420;
 
+	}
 	private: System::Void pictureBox1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 		if (pictureBox1->Image)
 		{
-			pictureBox2->Width = 450;
-			pictureBox2->Height = 450;
 			flag = 1;
+			// Start Coordinates
 			x = e->X;
 			y = e->Y;
 		}
 	}
-
 	private: System::Void pictureBox1_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 		try
 		{
 			if (pictureBox1->Image && flag == 1)
 			{
 				BYTE* t_intensity = new BYTE[width*height];
-
 				for (unsigned int i = 0; i < height*width; i++)
 					t_intensity[i] = raw_intensity[i];
 
+				// End Coordinates 
 				box_W = e->X;
 				box_H = e->Y;
-			
-				Bitmap^ imgCrop = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
-				pictureBox2->Image = imgCrop;
+				
+				Bitmap^ imgCrop = gcnew Bitmap(pictureBox1->Width, pictureBox1->Height);
+				pictureBox1->Image = imgCrop;
 				Color c;
-				int temp;
 
-				for (unsigned int row = y; row < box_H; row++)
+				for (unsigned int row = 0; row < height; row++)
 				{
-					for (unsigned int column = x; column < box_W; column++)
+					for (unsigned int column = 0; column < width; column++)
 					{
-						temp = row * width + column;
-						c = Color::FromArgb(t_intensity[temp], t_intensity[temp], t_intensity[temp]);
+						int pos = row * width + column;
+						if ((row == y || row == box_H) && (column >= x && column <= box_W))	
+							c = Color::White;
+						else if((row > y && row < box_H) && (column == x || column == box_W))
+							c = Color::White;
+						else
+							c = Color::FromArgb(t_intensity[pos], t_intensity[pos], t_intensity[pos]);
 						imgCrop->SetPixel(column, row, c);
-					}	
+					}
 				}
-				pictureBox2->Refresh();
-				delete[]t_intensity;
-			
+				pictureBox1->Refresh();
+				delete t_intensity;
 			}
-			
 		}
 		catch (const System::ArgumentOutOfRangeException^ e)
 		{
 			flag = 0;
-			MessageBox::Show("Hata");
+			MessageBox::Show("Image Error");
 		}
 	}
 	private: System::Void pictureBox1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
@@ -657,6 +645,7 @@ namespace ImageProcessing {
 			if (pictureBox1->Image)
 			{
 				flag = 0;
+				// End Coordinates 
 				box_W = e->X;
 				box_H = e->Y;
 
@@ -664,21 +653,26 @@ namespace ImageProcessing {
 				for (unsigned int i = 0; i < height*width; i++)
 					t_intensity[i] = raw_intensity[i];
 
-				dCrop = new BYTE[(box_H - y)*(box_W - x)];
+				int h = (box_H - y);
+				int w = (box_W - x);
+				dCrop = new BYTE[h*w];
+
 				int pos = 0;
-				for (unsigned int row = y; row <box_H; row++)
+				for (unsigned int row = y; row < box_H; row++) 
+				{
 					for (unsigned int column = x; column < box_W; column++)
 					{
-						dCrop[pos++] = t_intensity[row*width + column];
+						dCrop[pos++] = t_intensity[row * width + column];
 					}
-				delete[]t_intensity;
+				}
+				delete t_intensity;
 			}
 			
 		}
 		catch (const System::ArgumentOutOfRangeException^ e)
 		{
 			flag = 0;
-			MessageBox::Show("Hata");
+			MessageBox::Show("Image Error");
 		}
 	}
 
@@ -686,27 +680,52 @@ namespace ImageProcessing {
 	{
 		if (dCrop)
 		{
-			BYTE* zoom = DigitalZoom(dCrop, (box_W - x), (box_H - y));
+			int h = (box_H - y);
+			int w = (box_W - x);
+			BYTE* zoom = DigitalZoom(dCrop, w, h);
 
-			Bitmap^ imgZoom = gcnew Bitmap(2 * (box_W - x) - 1, 2 * (box_H - y) - 1);
-			pictureBox2->Width = 2 * (box_W - x) - 1;
-			pictureBox2->Height = 2 * (box_H - y) - 1;
-			pictureBox2->Image = imgZoom;
+			// 2N-1 X 2N-1
+			Bitmap^ imgZoom = gcnew Bitmap(2 * w - 1, 2 * h - 1);
 			Color c;
-			int temp;
+			pictureBox2->Image  = imgZoom;
 
-			for (unsigned int row = 0; row < 2 * (box_H - y) - 1; row++)
-				for (unsigned int column = 0; column < 2 * (box_W - x) - 1; column++)
+			for (unsigned int row = 0; row < 2 * h - 1; row++)
+			{
+				for (unsigned int column = 0; column < 2 * w - 1; column++)
 				{
-					temp = row * (2 * (box_W - x) - 1) + column;
-					c = Color::FromArgb(zoom[temp], zoom[temp], zoom[temp]);
+					int pos = row * (2 * w - 1) + column;
+					c = Color::FromArgb(zoom[pos], zoom[pos], zoom[pos]);
 					imgZoom->SetPixel(column, row, c);
 				}
-			BYTE * t = ConvertIntensityToBMP(zoom, 2 * (box_W - x) - 1, 2 * (box_H - y) - 1, newsize);
-			if (SaveBMP(t, 2 * (box_W - x) - 1, 2 * (box_H - y) - 1, newsize, output));
-			delete[] zoom;
-			delete[] dCrop;
+			}
+
+			/*
+			BYTE * t = ConvertIntensityToBMP(zoom, 2 * w - 1, 2 * h - 1, newsize);
+			if (SaveBMP(t, 2 * w - 1, 2 * h - 1, newsize, output));
+			*/
+			delete zoom;
+			delete dCrop;
+			
 		}
+
+		BYTE* t_intensity = new BYTE[width*height];
+		for (unsigned int i = 0; i < height * width; i++)
+			t_intensity[i] = raw_intensity[i];
+
+		Bitmap^ img = gcnew Bitmap(pictureBox1->Width, pictureBox1->Height);
+		pictureBox1->Image = img;
+		Color c;
+
+		for (unsigned int row = 0; row < height; row++)
+		{
+			for (unsigned int column = 0; column < width; column++)
+			{
+				int pos = row * width + column;
+				c = Color::FromArgb(t_intensity[pos], t_intensity[pos], t_intensity[pos]);
+				img->SetPixel(column, row, c);
+			}
+		}
+		delete t_intensity;
 		
 	}
 	
@@ -748,26 +767,25 @@ namespace ImageProcessing {
 		int *tempHistogram = Histogram(new_intensity, width, height);
 
 		for (unsigned int i = 0; i < 256; i++)
-		{
 			chart1->Series["Number Of Pixel"]->Points->AddXY(i, tempHistogram[i]);
-		}
-		chart1->Titles->Add("Histogram(Stretch)");
+
+		chart1->Titles->Add("Histogram Equalization");
 
 		Bitmap^ img = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
 		pictureBox2->Image = img;
 		Color c;
-		int temp;
 
 		for (unsigned int row = 0; row < height; row++)
+		{
 			for (unsigned int column = 0; column < width; column++)
 			{
-				temp = row * width + column;
-				c = Color::FromArgb(new_intensity[temp], new_intensity[temp], new_intensity[temp]);
+				int pos = row * width + column;
+				c = Color::FromArgb(new_intensity[pos], new_intensity[pos], new_intensity[pos]);
 				img->SetPixel(column, row, c);
 			}
-
-		delete[]tempHistogram;
-		delete[]new_intensity;
+		}
+		delete tempHistogram;
+		delete new_intensity;
 	}
 
 	private: System::Void kMeansClustering1DToolStripMenuItem_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -779,7 +797,6 @@ namespace ImageProcessing {
 		int T1 = (int)numericUpDown5->Value;
 		int T2 = (int)numericUpDown6->Value;
 		BYTE* k_means = KMeansClustering(t_intensity, width, height, T1, T2, 0);
-
 		Bitmap^ img = gcnew Bitmap(pictureBox2->Width, pictureBox2->Height);
 		pictureBox2->Image = img;
 		Color c;

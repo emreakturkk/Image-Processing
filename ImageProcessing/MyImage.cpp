@@ -4,6 +4,14 @@
 #include <time.h>
 #include "MyImage.h"
 
+using namespace std;
+using namespace System;
+using namespace System::ComponentModel;
+using namespace System::Collections;
+using namespace System::Windows::Forms;
+using namespace System::Data;
+using namespace System::Drawing;
+
 BYTE* LoadBMP(int% width, int% height, long% size, LPCTSTR bmpfile)
 {
 	// declare bitmap structures
@@ -198,44 +206,98 @@ BYTE* ConvertIntensityToBMP(BYTE* Buffer, int width, int height, long% newsize)
 	return newbuf;
 } //ConvertIntensityToBMP
 
+int *Histogram(BYTE* buffer, int width, int height)
+{
+	int *histogram = new int[256];
+
+	for (unsigned int i = 0; i < 256; i++)
+		histogram[i] = 0;
+
+	for (unsigned int pos = 0; pos < width*height; pos++)
+	{
+		int t = buffer[pos];
+		histogram[t]++;
+	}
+
+	return histogram;
+}
+
+BYTE* HistogramEqualization(BYTE* buffer, int width, int height)
+{
+	int numPixel = width * height;
+	int maxValue = 255;
+	int *histogram = Histogram(buffer, width, height);
+
+	BYTE *t = new BYTE[width * height];
+	for (int i = 0; i < width * height; i++)
+		t[i] = BYTE(0);
+
+	float sum = 0.0;
+	for (int i = 0; i < 256; i++)
+	{
+		sum += histogram[i];
+		int value = round((sum / numPixel) * maxValue);    // New Histogram Value
+		if (histogram[i] > 0)
+		{
+			// Set Image New Histogram Value 
+			for (int pos = 0; pos < width*height; pos++)
+			{
+				if (buffer[pos] == BYTE(i))
+				{
+					if (t[pos] == 0)
+					{
+						buffer[pos] = BYTE(value);
+						t[pos] = BYTE(1);
+					}
+				}
+			}
+		}
+
+	}
+	delete t;
+	return buffer;
+}
+
 BYTE* DigitalZoom(BYTE* Buffer, int width, int height)
 {
+	// Expansion Matrix: 2N+1 X 2N+1
 	int h = 2 * height + 1;
-	int w = 2 * width + 1;
-	int bufPos;
+	int w = 2 * width  + 1;
+
+	// Convolution Mask Matrix
+	float mask[9] = { 0.25, 0.5, 0.25,
+		                0.5, 1, 0.5,
+		                0.25, 0.5, 0.25 };
+
+	// Expansion with Zero
+	BYTE* tempBuffer = new BYTE[w * h];
 	int i = 0;
 	int flag = 0;
-	float matrix[9] = { 0.25, 0.5, 0.25,
-		0.5, 1, 0.5,
-		0.25, 0.5, 0.25 };
-
-	BYTE* tempBuffer = new BYTE[w*h];
-
 	for (unsigned int row = 0; row <h; row++)
 	{
 		for (unsigned int column = 0; column <w; column++)
 		{
-			bufPos = row * w + column;
+			int pos = row * w + column;
 			if (row % 2 == 0)
 			{
-				tempBuffer[bufPos] = BYTE(0);
+				tempBuffer[pos] = BYTE(0);
 			}
 			else
 			{
 				if (column == 0 || column == w - 1)
 				{
-					tempBuffer[bufPos] = BYTE(0);
+					tempBuffer[pos] = BYTE(0);
 					flag = 1;
 				}
 				else if (flag == 1)
 				{
-					tempBuffer[bufPos] = Buffer[i++];
+					tempBuffer[pos] = Buffer[i++];
 					flag = 0;
 
 				}
 				else
 				{
-					tempBuffer[bufPos] = BYTE(0);
+					tempBuffer[pos] = BYTE(0);
 					flag = 1;
 
 				}
@@ -243,9 +305,10 @@ BYTE* DigitalZoom(BYTE* Buffer, int width, int height)
 		}
 	}
 
+	// Convolution Mask Image: 2N-1 X 2N-1
 	BYTE* tBuf = new BYTE[(h - 2)*(w - 2)];
 	int sum = 0;
-	int a = 0;
+	int index = 0;
 
 	for (int i = 0; i < h - 2; i++)
 	{
@@ -256,84 +319,15 @@ BYTE* DigitalZoom(BYTE* Buffer, int width, int height)
 			{
 				for (int l = 0; l < 3; l++)
 				{
-
 					pos++;
-					sum += tempBuffer[(i + k)*w + j + l] * matrix[pos];
-
+					sum += tempBuffer[(i + k) * w + j + l] * mask[pos];
 				}
-
 			}
-			tBuf[a++] = BYTE(sum);
+			tBuf[index++] = BYTE(sum);
 			sum = 0;
-
 		}
 	}
-
 	return tBuf;
-}
-
-int *Histogram(BYTE* buffer, int width, int height)
-{
-	int *histogram = new int[256];
-
-	for (unsigned int i = 0; i < 256; i++)
-		histogram[i] = 0;
-
-	for (unsigned int pos = 0; pos <width*height; pos++)
-	{
-		int t = buffer[pos];
-		histogram[t]++;
-	}
-	return histogram;
-}
-
-BYTE* HistogramEqualization(BYTE* buffer, int width, int height)
-{
-	int pixel = width * height;
-	int level = 255;
-	int *stretch = new int[256];
-	int etiket = 1;
-
-	BYTE *tBuffer = new BYTE[width * height];
-
-	int *histogram = Histogram(buffer, width, height);
-
-	for (int i = 0; i < 256; i++)
-		stretch[i] = 0;
-
-	float sum = 0.0;
-	for (int i = 0; i <= level; i++)
-	{
-		sum += histogram[i];
-		stretch[i] = (int)round((sum / pixel) *level);
-	}
-
-	
-
-	for (int i = 0; i < width * height; i++)
-		tBuffer[i] = BYTE(0);
-
-	for (int k = 0; k < 256; k++)
-	{
-		if (histogram[k] > 0)
-		{
-			for (int pos = 0; pos < width*height; pos++)
-			{
-				if (buffer[pos] == BYTE(k))
-				{
-					if (tBuffer[pos] == 0)
-					{
-						buffer[pos] = BYTE(stretch[k]);
-						tBuffer[pos] = BYTE(etiket);
-					}
-				}
-			}
-			etiket++;
-		}
-	}
-	delete[]tBuffer;
-
-	return buffer;
 }
 
 BYTE* KMeansClustering(BYTE* buffer, int width, int height, int T11, int T22, int option)
@@ -788,9 +782,9 @@ BYTE* Erosion(BYTE* buffer, int width, int height, int iteration)
 {
 	int bufPos = 0;
 	const int maskVal = 9;
-	int erosionMask[maskVal] =		{ 1,1,1,
-									0,1,0,
-									1,1,1 };
+	int erosionMask[maskVal] = { 1,1,1,
+								0,1,0,
+								1,1,1 };
 	int flagSayisi = 0;
 	for (int i = 0; i < maskVal; i++)
 		if (erosionMask[i] == 1)
@@ -839,7 +833,7 @@ BYTE* Erosion(BYTE* buffer, int width, int height, int iteration)
 							{
 								if (maskPos == 4)
 								{
-									buffer[(i + k)*width + (j + l)] = BYTE(1); // etiket //foreground
+									buffer[(i + k)*width + (j + l)] = BYTE(1); // etiket - foreground
 								}
 
 								maskPos++;
