@@ -708,6 +708,7 @@ namespace ImageProcessing {
 			
 		}
 
+		/*
 		BYTE* t_intensity = new BYTE[width*height];
 		for (unsigned int i = 0; i < height * width; i++)
 			t_intensity[i] = raw_intensity[i];
@@ -726,6 +727,7 @@ namespace ImageProcessing {
 			}
 		}
 		delete t_intensity;
+		*/
 		
 	}
 	
