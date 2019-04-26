@@ -11,15 +11,15 @@
 
 ![](images/dz.PNG)
 
-### Binary Image Euclidean Distance
+### Binary Image (Euclidean Distance)
 
 ![](images/bie.PNG)
 
-### Binary Image Mahalanobis Distance
+### Binary Image (Mahalanobis Distance)
 
 ![](images/bih.PNG)
 
-### Image Morphology(Dilation Erosion Opening Closing Boundary)
+### Image Morphology (Dilation-Erosion-Opening-Closing-Boundary)
 
 ![](images/imd.PNG) ![](images/ime.PNG) ![](images/imo.PNG) ![](images/imc.PNG) ![](images/imb.PNG)
 
